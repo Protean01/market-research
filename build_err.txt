@@ -1,0 +1,125 @@
+﻿node.exe : npm warn 
+Unknown project 
+config "public-hoist-
+pattern". This will 
+stop working in the 
+next major version 
+of npm.
+At line:1 char:1
++ & "C:\Program Files
+\nodejs/node.exe" "C:
+\Users\nilca\AppData\
+Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo   
+           : NotSpe  
+  cified: (npm war   
+ n Unknow...versi    
+on of npm.:Strin    
+g) [], RemoteExc    
+eption
+    + FullyQualified 
+   ErrorId : Native  
+  CommandError
+ 
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32mÔ£ô[39m 7 modules transformed.
+[31mÔ£ù[39m Build 
+failed in 14.21s
+[31merror during 
+build:
+[31m[vite-plugin-pwa
+:build] There was an 
+error during the 
+build:
+  [plugin vite:vue] r
+esources/js/pages/Sur
+veyList.vue (73:1): 
+Invalid end tag.
+Additionally, 
+handling the error 
+in the 'buildEnd' 
+hook caused the 
+following error:
+  [plugin vite:vue] r
+esources/js/pages/Sur
+veyList.vue (73:1): 
+Invalid end tag.[31m
+file: [36mC:/Users/n
+ilca/Documents/Games/
+New Project/market-re
+search-platform/resou
+rces/js/pages/SurveyL
+ist.vue:73:1[31m
+    at 
+getRollupError (file:
+///C:/Users/nilca/Doc
+uments/Games/New%20Pr
+oject/market-research
+-platform/node_module
+s/rollup/dist/es/shar
+ed/parseAst.js:402:41
+)
+    at file:///C:/Use
+rs/nilca/Documents/Ga
+mes/New%20Project/mar
+ket-research-platform
+/node_modules/rollup/
+dist/es/shared/node-e
+ntry.js:23467:39
+    at async catchUnf
+inishedHookActions (f
+ile:///C:/Users/nilca
+/Documents/Games/New%
+20Project/market-rese
+arch-platform/node_mo
+dules/rollup/dist/es/
+shared/node-entry.js:
+22925:16)
+    at async 
+rollupInternal (file:
+///C:/Users/nilca/Doc
+uments/Games/New%20Pr
+oject/market-research
+-platform/node_module
+s/rollup/dist/es/shar
+ed/node-entry.js:2345
+0:5)
+    at async 
+buildEnvironment (fil
+e:///C:/Users/nilca/D
+ocuments/Games/New%20
+Project/market-resear
+ch-platform/node_modu
+les/vite/dist/node/ch
+unks/config.js:33541:
+12)
+    at async 
+Object.build (file://
+/C:/Users/nilca/Docum
+ents/Games/New%20Proj
+ect/market-research-p
+latform/node_modules/
+vite/dist/node/chunks
+/config.js:33900:19)
+    at async 
+Object.buildApp (file
+:///C:/Users/nilca/Do
+cuments/Games/New%20P
+roject/market-researc
+h-platform/node_modul
+es/vite/dist/node/chu
+nks/config.js:33897:1
+53)
+    at async 
+CAC.<anonymous> (file
+:///C:/Users/nilca/Do
+cuments/Games/New%20P
+roject/market-researc
+h-platform/node_modul
+es/vite/dist/node/cli
+.js:629:3)[39m

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(superpowers:test-driven-development)",
+      "Skill(superpowers:test-driven-development:*)",
+      "Skill(superpowers:brainstorming)",
+      "Skill(superpowers:brainstorming:*)",
+      "Skill(superpowers:writing-plans)",
+      "Skill(superpowers:writing-plans:*)",
+      "Skill(superpowers:executing-plans)",
+      "Skill(superpowers:executing-plans:*)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" -Force)",
+      "Bash(Select-Object Name)",
+      "Bash(mkdir -p \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\docs\\\\superpowers\\\\specs\")",
+      "Skill(superpowers:systematic-debugging)",
+      "Skill(superpowers:systematic-debugging:*)",
+      "Bash(Get-Content \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\storage\\\\logs\\\\laravel.log\" -Tail 100)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" -Directory)",
+      "Bash(Select-Object -ExpandProperty Name)",
+      "PowerShell(cd \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\"; php check_surveys.php; echo \"EXIT: $LASTEXITCODE\")",
+      "Bash(php activate_draws.php)",
+      "Bash(del \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\activate_draws.php\")",
+      "Bash(php add_points_survey.php)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\nilca\\Documents\\Games\\New Project\\market-research-platform\\docs\\superpowers\\specs"
+    ]
+  }
+}

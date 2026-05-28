@@ -1,0 +1,72 @@
+<h2>Image Choice Question — Survey Taker View</h2>
+<p class="subtitle">How should image options look when a user is answering a survey?</p>
+
+<div class="cards">
+
+  <!-- Option A: 2x2 Grid -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:180px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div style="background:#e2e8f0;border-radius:10px;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;border:2px solid transparent;">🖼 Image 1</div>
+        <div style="background:#e2e8f0;border-radius:10px;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;border:2px solid transparent;">🖼 Image 2</div>
+        <div style="background:#6366f1;border-radius:10px;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:white;border:2px solid #4f46e5;">✓ Image 3</div>
+        <div style="background:#e2e8f0;border-radius:10px;height:72px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#64748b;border:2px solid transparent;">🖼 Image 4</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — 2×2 Grid</h3>
+      <p>Compact grid. Works best for 2–4 options. Clean, fast to scan.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Horizontal scroll cards -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:16px;display:flex;align-items:center;gap:8px;overflow:hidden;min-height:180px;">
+      <div style="flex:0 0 90px;background:#e2e8f0;border-radius:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8px;font-size:9px;color:#64748b;overflow:hidden;">
+        <div style="background:#cbd5e1;width:100%;height:88px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">🖼</div>
+        Brand A
+      </div>
+      <div style="flex:0 0 90px;background:#6366f1;border-radius:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8px;font-size:9px;color:white;overflow:hidden;border:2px solid #4f46e5;">
+        <div style="background:#818cf8;width:100%;height:88px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">🖼</div>
+        ✓ Brand B
+      </div>
+      <div style="flex:0 0 90px;background:#e2e8f0;border-radius:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8px;font-size:9px;color:#64748b;overflow:hidden;">
+        <div style="background:#cbd5e1;width:100%;height:88px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">🖼</div>
+        Brand C
+      </div>
+      <div style="flex:0 0 90px;opacity:0.4;background:#e2e8f0;border-radius:12px;height:120px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:8px;font-size:9px;color:#64748b;overflow:hidden;">
+        <div style="background:#cbd5e1;width:100%;height:88px;margin-bottom:6px;display:flex;align-items:center;justify-content:center;font-size:18px;">🖼</div>
+        Brand D »
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Horizontal Scroll Cards</h3>
+      <p>Scrollable image cards with label below. Good for any number of options. Works well on mobile.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Stacked full-width with label -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:180px;">
+      <div style="display:flex;align-items:center;gap:10px;background:#e2e8f0;border-radius:10px;padding:8px 12px;border:2px solid transparent;">
+        <div style="background:#cbd5e1;width:52px;height:40px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;">🖼</div>
+        <span style="font-size:11px;color:#64748b;font-weight:600;">Option A — Text label beside image</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#6366f1;border-radius:10px;padding:8px 12px;border:2px solid #4f46e5;">
+        <div style="background:#818cf8;width:52px;height:40px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;">🖼</div>
+        <span style="font-size:11px;color:white;font-weight:700;">✓ Option B — Selected</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:#e2e8f0;border-radius:10px;padding:8px 12px;border:2px solid transparent;">
+        <div style="background:#cbd5e1;width:52px;height:40px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;">🖼</div>
+        <span style="font-size:11px;color:#64748b;font-weight:600;">Option C — Thumbnail + text row</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Thumbnail + Label Rows</h3>
+      <p>Image thumbnail alongside text. Familiar list feel. Good when labels matter as much as images.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:16px">Click one to select your preference. All support single-select; we'll confirm multi-select in the next step.</p>

@@ -1,0 +1,57 @@
+<h2>Survey Builder — Image MCQ Question</h2>
+<p class="subtitle">How a question looks in the builder when type is set to "Image Choice"</p>
+
+<div class="mockup">
+  <div class="mockup-header">Survey Builder · Question Editor</div>
+  <div class="mockup-body" style="background:#f8fafc;padding:20px;font-family:system-ui;">
+
+    <!-- Question header row -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <div style="background:#e2e8f0;border-radius:8px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#64748b;">Q1</div>
+      <div style="flex:1;background:white;border:1.5px solid #e2e8f0;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;color:#1e293b;">Which packaging do you prefer?</div>
+      <div style="background:#6366f1;color:white;border-radius:8px;padding:6px 10px;font-size:10px;font-weight:800;">Image Choice</div>
+    </div>
+
+    <!-- Options builder -->
+    <div style="background:white;border:1.5px solid #e2e8f0;border-radius:12px;padding:14px;margin-bottom:12px;">
+      <div style="font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#94a3b8;margin-bottom:10px;">Image Options</div>
+
+      <!-- Option 1 — has image -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;background:#f8fafc;border-radius:8px;padding:8px 10px;border:1.5px solid #e2e8f0;">
+        <div style="width:52px;height:44px;border-radius:6px;background:#dbeafe;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;cursor:pointer;">
+          🛍️
+          <div style="position:absolute;bottom:-4px;right:-4px;background:#6366f1;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:7px;color:white;">✎</div>
+        </div>
+        <input style="flex:1;border:1.5px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#1e293b;" value="Classic Blue" readonly />
+        <div style="color:#ef4444;cursor:pointer;font-size:11px;font-weight:700;">✕</div>
+      </div>
+
+      <!-- Option 2 — has image -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;background:#f8fafc;border-radius:8px;padding:8px 10px;border:1.5px solid #e2e8f0;">
+        <div style="width:52px;height:44px;border-radius:6px;background:#fce7f3;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;cursor:pointer;">
+          🎁
+          <div style="position:absolute;bottom:-4px;right:-4px;background:#6366f1;border-radius:50%;width:14px;height:14px;display:flex;align-items:center;justify-content:center;font-size:7px;color:white;">✎</div>
+        </div>
+        <input style="flex:1;border:1.5px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:700;color:#1e293b;" value="Rose Pink" readonly />
+        <div style="color:#ef4444;cursor:pointer;font-size:11px;font-weight:700;">✕</div>
+      </div>
+
+      <!-- Option 3 — no image yet (upload state) -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;background:#f8fafc;border-radius:8px;padding:8px 10px;border:1.5px dashed #c7d2fe;">
+        <div style="width:52px;height:44px;border-radius:6px;background:#eef2ff;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;border:1.5px dashed #a5b4fc;">
+          <span style="font-size:14px;">📁</span>
+          <span style="font-size:7px;font-weight:800;color:#6366f1;margin-top:1px;">Upload</span>
+        </div>
+        <input style="flex:1;border:1.5px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:11px;font-weight:600;color:#94a3b8;" placeholder="Option label..." readonly />
+        <div style="color:#ef4444;cursor:pointer;font-size:11px;font-weight:700;">✕</div>
+      </div>
+
+      <!-- Add option button -->
+      <button style="width:100%;border:1.5px dashed #c7d2fe;border-radius:8px;padding:8px;font-size:10px;font-weight:800;color:#6366f1;background:transparent;cursor:pointer;letter-spacing:0.05em;">+ Add Image Option</button>
+    </div>
+
+    <div style="font-size:9px;color:#94a3b8;font-weight:600;font-style:italic;">Clicking the thumbnail opens a file picker. Images are uploaded immediately and stored on the server.</div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:16px">Each option: click the thumbnail area to upload an image, type a label beside it. The pencil icon indicates the thumbnail is clickable. Does this feel right?</p>

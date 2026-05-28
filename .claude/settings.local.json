@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(test:*)",
+      "Bash(npm run types:check:*)",
+      "Bash(npm run lint:check:*)",
+      "Bash(composer lint:check:*)",
+      "Bash(php artisan:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run lint)",
+      "Bash(composer lint:*)",
+      "Bash(xargs grep *)",
+      "Bash(C:/Users/nilca/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/scripts/start-server.sh --project-dir \"c:/Users/nilca/Documents/Games/New Project/market-research-platform\")",
+      "PowerShell(Out-File *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\app\" -Recurse | Where-Object { $_.Name -match \"admin|auth|login\" -and !$_.PSIsContainer } | Select-Object FullName | Format-Table -AutoSize)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "Bash(Remove-Item set_admin_password.php, check_admins.php)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" -Exclude \"vendor\")",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" | Where-Object { $_.Name -ne \"vendor\" } | ForEach-Object { \"$\\($_.PSIsContainer\\) $\\($_.Name\\)\" })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\app\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object -ExpandProperty FullName | ForEach-Object { $_.Replace\\(\"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\\", \"\"\\) })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\tests\" -Recurse | Where-Object { -not $_.PSIsContainer } | Select-Object -ExpandProperty Name)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\routes\" | ForEach-Object { $_.Name })",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\" -Recurse -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -First 20 FullName)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
