@@ -33,12 +33,16 @@ function select(label: string) {
                 selected !== null && selected !== opt.label ? 'opacity-50' : '',
             ]"
         >
-            <div class="relative">
+            <div class="relative bg-muted">
                 <img
+                    v-if="opt.image_url"
                     :src="opt.image_url"
                     :alt="opt.label"
                     class="w-full h-28 object-cover"
                 />
+                <div v-else class="w-full h-28 flex items-center justify-center">
+                    <span class="text-xs text-muted-foreground font-bold">No image</span>
+                </div>
                 <div
                     v-if="selected === opt.label"
                     class="absolute top-2 right-2 w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center shadow-lg"

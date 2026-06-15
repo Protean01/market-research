@@ -154,7 +154,7 @@ const quickActions = computed(() => [
     <Head title="Home" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-6 md:gap-12 p-4 md:p-8 max-w-7xl mx-auto w-full pb-32">
+        <div class="flex h-full flex-1 flex-col gap-6 md:gap-12 p-4 md:p-8 max-w-7xl mx-auto w-full pb-32 overflow-x-hidden">
             
             <!-- Header Section -->
             <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6 px-1 md:px-2">
@@ -323,7 +323,7 @@ const quickActions = computed(() => [
 
             <!-- Content Layout -->
             <div class="grid gap-8 md:gap-10 lg:grid-cols-12">
-                
+
                 <!-- Main Content: Jobs & Actions -->
                 <div class="lg:col-span-7 space-y-8 md:space-y-10">
                     
@@ -374,7 +374,7 @@ const quickActions = computed(() => [
                                 v-for="survey in featured_surveys"
                                 :key="survey.id"
                                 :href="'/surveys/' + survey.id"
-                                class="group flex items-center gap-4 md:gap-6 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2.5rem] border border-border bg-card shadow-sm hover:shadow-xl hover:border-indigo-500/30 transition-all active:scale-[0.98]"
+                                class="group flex items-center gap-4 md:gap-6 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2.5rem] border border-border bg-card shadow-sm hover:shadow-xl hover:border-indigo-500/30 transition-all active:scale-[0.98] min-w-0 overflow-hidden"
                             >
                                 <div class="h-12 w-12 md:h-16 md:w-16 rounded-2xl md:rounded-3xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0 group-hover:scale-110 transition-transform">
                                     <Zap class="w-6 h-6 md:w-8 md:h-8 fill-current opacity-80" />
@@ -406,12 +406,12 @@ const quickActions = computed(() => [
                                 v-for="action in quickActions"
                                 :key="action.title"
                                 :href="action.href"
-                                class="group flex flex-col sm:flex-row items-center gap-2 sm:gap-4 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border border-border bg-card hover:bg-muted/50 transition-all active:scale-95 shadow-sm text-center sm:text-left"
+                                class="group flex flex-col items-center gap-2 p-4 md:p-5 rounded-[1.5rem] md:rounded-[2rem] border border-border bg-card hover:bg-muted/50 transition-all active:scale-95 shadow-sm text-center min-w-0 overflow-hidden"
                             >
                                 <div :class="[action.color, 'h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:rotate-6 transition-transform shrink-0']">
                                     <component :is="action.icon" class="w-5 h-5 md:w-6 md:h-6" />
                                 </div>
-                                <div class="flex flex-col items-center sm:items-start">
+                                <div class="flex flex-col items-center">
                                     <span class="text-[11px] md:text-xs font-black text-foreground uppercase tracking-tight leading-none">{{ action.title }}</span>
                                     <span class="text-[7px] md:text-[8px] font-black text-muted-foreground uppercase tracking-widest mt-1">Open</span>
                                 </div>
@@ -421,7 +421,7 @@ const quickActions = computed(() => [
                 </div>
 
                 <!-- Right Side: Activity & Community -->
-                <div class="lg:col-span-5 space-y-8 md:space-y-10">
+                <div class="lg:col-span-5 flex flex-col gap-8 md:gap-10 lg:justify-between">
                     <!-- Activity Stream -->
                     <section class="space-y-4 md:space-y-6">
                         <div class="flex items-center justify-between px-1 md:px-2">
@@ -467,7 +467,7 @@ const quickActions = computed(() => [
                             </div>
                             <h3 class="font-black uppercase tracking-tight text-xl md:text-2xl mb-1.5 md:mb-2">Share the love</h3>
                             <p class="text-zinc-500 text-xs md:text-sm font-medium mb-6 md:mb-8 leading-relaxed">Refer a friend and earn <span class="text-white font-black">50 points</span> when they join.</p>
-                            <button class="w-full py-4 md:py-5 rounded-xl md:rounded-2xl bg-indigo-600 text-white font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-indigo-50 transition-all active:scale-95 shadow-xl shadow-indigo-600/20">
+                            <button class="w-full py-4 md:py-5 rounded-xl md:rounded-2xl bg-indigo-600 text-white font-black uppercase tracking-widest text-[10px] md:text-xs hover:bg-indigo-500 transition-all active:scale-95 shadow-xl shadow-indigo-600/20">
                                 Copy Invite Link
                             </button>
                         </div>

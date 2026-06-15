@@ -157,6 +157,7 @@ const maxIncomeCount = computed(() =>
 );
 
 function capPercent(survey: any) {
+    if (!survey.response_cap) return 0;
     return Math.min(100, Math.round((survey.response_count / survey.response_cap) * 100));
 }
 

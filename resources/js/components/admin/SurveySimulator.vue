@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { X, MessageSquare, Trophy, Zap } from 'lucide-vue-next';
 import { ref, computed } from 'vue';
+import QuestionCheckbox from '@/components/Survey/QuestionCheckbox.vue';
+import QuestionImageMCQ from '@/components/Survey/QuestionImageMCQ.vue';
 import QuestionMCQ from '@/components/Survey/QuestionMCQ.vue';
 import QuestionScale from '@/components/Survey/QuestionScale.vue';
+import QuestionText from '@/components/Survey/QuestionText.vue';
 import { useHaptics } from '@/composables/useHaptics';
 
 const props = defineProps<{
@@ -37,9 +40,12 @@ return null;
     return allQuestions.value[currentQuestionIndex.value];
 });
 
-function handleAnswer(question: any, payload: any) {
+function handleAnswer(payload: any) {
     answers.value[payload.questionId] = payload.answer;
-    setTimeout(next, 400);
+    // Auto-advance for single-select types
+    if (['mcq', 'scale', 'image_mcq'].includes(currentQuestion.value?.type)) {
+        setTimeout(next, 400);
+    }
 }
 
 function isQuestionVisible(question: any): boolean {
@@ -196,6 +202,21 @@ const totalCount = computed(() => allQuestions.value.length);
                                 :question="currentQuestion"
                                 @answer="handleAnswer"
                             />
+                            <QuestionImageMCQ
+                                v-else-if="currentQuestion.type === 'image_mcq'"
+                                :question="currentQuestion"
+                                @answer="handleAnswer"
+                            />
+                            <QuestionCheckbox
+                                v-else-if="currentQuestion.type === 'checkbox'"
+                                :question="currentQuestion"
+                                @answer="handleAnswer"
+                            />
+                            <QuestionText
+                                v-else-if="currentQuestion.type === 'text'"
+                                :question="currentQuestion"
+                                @answer="handleAnswer"
+                            />
                             <div v-else class="p-10 border-2 border-dashed border-border rounded-3xl text-center">
                                 <p class="text-sm font-bold text-muted-foreground">Preview not available for this type ({{ currentQuestion.type }})</p>
                                 <button @click="next" class="mt-4 text-indigo-600 font-black uppercase text-[10px] tracking-widest">Skip Preview →</button>
@@ -205,8 +226,8 @@ const totalCount = computed(() => allQuestions.value.length);
 
                     <!-- Footer Controls -->
                     <div class="max-w-2xl mx-auto w-full mt-auto flex items-center justify-between border-t border-border pt-8">
-                        <button 
-                            @click="prev" 
+                        <button
+                            @click="prev"
                             :disabled="history.length === 0"
                             class="text-muted-foreground font-black uppercase text-[10px] tracking-widest hover:text-foreground disabled:opacity-0 transition-all"
                         >
@@ -216,6 +237,14 @@ const totalCount = computed(() => allQuestions.value.length);
                             <div class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></div>
                             <span class="text-muted-foreground font-black text-[10px] tracking-widest uppercase italic">Logic testing active</span>
                         </div>
+                        <!-- Show Continue button for types that don't auto-advance -->
+                        <button
+                            v-if="currentQuestion && ['checkbox', 'text'].includes(currentQuestion.type)"
+                            @click="next"
+                            class="text-indigo-600 font-black uppercase text-[10px] tracking-widest hover:text-indigo-500 transition-all"
+                        >
+                            Continue →
+                        </button>
                     </div>
                 </div>
 

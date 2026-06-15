@@ -203,14 +203,14 @@ onMounted(load);
 
                         <div
                             class="flex-1 min-w-0"
-                            :class="{'cursor-pointer': item.data.url}"
-                            @click="item.data.url ? go(item.data.url, item.id) : null"
+                            :class="{'cursor-pointer': item.data?.url}"
+                            @click="item.data?.url ? go(item.data?.url, item.id) : null"
                         >
                             <p class="text-sm font-black text-foreground leading-tight">
-                                {{ item.data.title ?? item.data.body ?? 'New Notification' }}
+                                {{ item.data?.title ?? item.data?.body ?? 'New Notification' }}
                             </p>
-                            <p v-if="item.data.body || item.data.message" class="text-sm text-muted-foreground mt-1 font-medium leading-relaxed">
-                                {{ item.data.body || item.data.message }}
+                            <p v-if="item.data?.body || item.data?.message" class="text-sm text-muted-foreground mt-1 font-medium leading-relaxed">
+                                {{ item.data?.body || item.data?.message }}
                             </p>
                             <div class="flex items-center gap-2 mt-2">
                                 <Clock class="w-3 h-3 text-muted-foreground/60" />
@@ -220,8 +220,8 @@ onMounted(load);
 
                         <div class="flex items-center gap-2 shrink-0">
                             <button
-                                v-if="item.data.url"
-                                @click="go(item.data.url, item.id)"
+                                v-if="item.data?.url"
+                                @click="go(item.data?.url, item.id)"
                                 class="p-2 rounded-xl bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
                             >
                                 <ChevronRight class="w-4 h-4" />
@@ -253,14 +253,14 @@ onMounted(load);
 
                         <div
                             class="flex-1 min-w-0"
-                            :class="{'cursor-pointer': item.data.url}"
-                            @click="item.data.url ? go(item.data.url, item.id) : null"
+                            :class="{'cursor-pointer': item.data?.url}"
+                            @click="item.data?.url ? go(item.data?.url, item.id) : null"
                         >
                             <p class="text-sm font-bold text-foreground leading-tight">
-                                {{ item.data.title ?? item.data.body ?? 'Notification' }}
+                                {{ item.data?.title ?? item.data?.body ?? 'Notification' }}
                             </p>
-                            <p v-if="item.data.body || item.data.message" class="text-sm text-muted-foreground mt-1 font-medium">
-                                {{ item.data.body || item.data.message }}
+                            <p v-if="item.data?.body || item.data?.message" class="text-sm text-muted-foreground mt-1 font-medium">
+                                {{ item.data?.body || item.data?.message }}
                             </p>
                             <div class="flex items-center gap-2 mt-2">
                                 <Clock class="w-3 h-3 text-muted-foreground/60" />
@@ -269,8 +269,8 @@ onMounted(load);
                         </div>
 
                         <button
-                            v-if="item.data.url"
-                            @click="go(item.data.url, item.id)"
+                            v-if="item.data?.url"
+                            @click="go(item.data?.url, item.id)"
                             class="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-all shrink-0"
                         >
                             <ChevronRight class="w-4 h-4" />

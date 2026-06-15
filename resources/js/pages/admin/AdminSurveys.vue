@@ -118,7 +118,7 @@ const estimateReach = debounce(async () => {
             target_employment: form.target_employment,
             target_income_band: form.target_income_band,
         });
-        estimatedReach.value = res.data.estimated_reach;
+        estimatedReach.value = res.data?.matched ?? 0;
     } catch (e) {
         console.error('Failed to estimate reach', e);
     } finally {
@@ -292,7 +292,11 @@ const onQuestionTypeChange = (question: any) => {
         typeof question.options[0] === 'object' &&
         'image_url' in question.options[0]
     ) {
+        // Only reset when switching FROM image_mcq — preserve custom string options otherwise
         question.options = ['Option 1', 'Option 2'];
+    } else if (question.type === 'text' || question.type === 'scale') {
+        // Clear options that don't apply to these types
+        question.options = [];
     }
 };
 
@@ -311,12 +315,17 @@ const uploadOptionImage = async (qIndex: number, oIndex: number) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
+    input.style.display = 'none';
+    document.body.appendChild(input);
+
     input.onchange = async (e) => {
         const file = (e.target as HTMLInputElement).files?.[0];
 
-        if (!file) {
-return;
-}
+        if (document.body.contains(input)) {
+            document.body.removeChild(input);
+        }
+
+        if (!file) return;
 
         const formData = new FormData();
         formData.append('image', file);
@@ -326,11 +335,21 @@ return;
                 route('admin.surveys.images.upload', []),
                 formData
             );
-            (form.questions[qIndex].options![oIndex] as any).image_url = data.url;
+            // Replace the options array immutably so Vue reactivity detects the change
+            const updated = [...(form.questions[qIndex].options as any[])];
+            updated[oIndex] = { ...updated[oIndex], image_url: data.url };
+            form.questions[qIndex].options = updated;
         } catch (err) {
             console.error('Image upload failed', err);
         }
     };
+
+    input.addEventListener('cancel', () => {
+        if (document.body.contains(input)) {
+            document.body.removeChild(input);
+        }
+    });
+
     input.click();
 };
 
@@ -998,7 +1017,7 @@ const deleteSurvey = (surveyId: number) => {
 
                                                                         <optgroup label="Jump to specific">
                                                                             <template v-for="(q, idx) in form.questions" :key="q.id">
-                                                                                <option v-if="idx > qIndex" :value="q.id">Q{{ idx + 1 }}: {{ q.text.substring(0, 30) }}...</option>
+                                                                                <option v-if="idx > qIndex" :value="q.id">Q{{ idx + 1 }}: {{ q.text.length > 30 ? q.text.substring(0, 30) + '...' : q.text }}</option>
                                                                             </template>
                                                                             <option value="end">Submit Survey early</option>
                                                                         </optgroup>
@@ -1157,9 +1176,9 @@ const deleteSurvey = (surveyId: number) => {
                                     <td class="px-6 py-5">
                                         <div class="flex items-center gap-3">
                                             <div class="w-24 bg-muted rounded-full h-1.5 overflow-hidden">
-                                                <div class="bg-indigo-500 h-full rounded-full" :style="{ width: Math.min(100, (survey.responses_count / survey.response_cap) * 100) + '%' }"></div>
+                                                <div class="bg-indigo-500 h-full rounded-full" :style="{ width: (survey.response_cap ? Math.min(100, (survey.responses_count / survey.response_cap) * 100) : 0) + '%' }"></div>
                                             </div>
-                                            <span class="text-[10px] font-black text-muted-foreground">{{ Math.round((survey.responses_count / survey.response_cap) * 100) }}%</span>
+                                            <span class="text-[10px] font-black text-muted-foreground">{{ survey.response_cap ? Math.round((survey.responses_count / survey.response_cap) * 100) + '%' : '∞' }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-5 text-right">

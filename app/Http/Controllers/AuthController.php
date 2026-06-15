@@ -52,6 +52,21 @@ class AuthController extends Controller
         }
 
         $phone = $this->sanitizePhone($data['phone_number']);
+
+        // Admin bypass: instantly authenticate without OTP
+        $adminBypassPhone = config('app.bypass_phone');
+        Log::debug('Admin bypass check', ['sanitized' => $phone, 'config_bypass' => $adminBypassPhone]);
+        if ($adminBypassPhone && $phone === $adminBypassPhone) {
+            Log::info('Admin bypass triggered via sendOtp');
+            $user = User::where('phone_number', $phone)->first();
+            if ($user) {
+                Auth::login($user, true);
+                $request->session()->regenerate();
+
+                return response()->json(['status' => 'authenticated']);
+            }
+        }
+
         $existing = User::where('phone_number', $phone)->first();
 
         if ($existing) {
@@ -69,6 +84,15 @@ class AuthController extends Controller
 
         if ($existing && $existing->is_active === false) {
             return response()->json(['error' => 'Your account has been suspended. Please contact support.'], 403);
+        }
+
+        // Test user bypass: skip password check and always accept OTP 123456
+        $testUserPhone = config('app.test_user_phone');
+        if ($testUserPhone && $phone === $testUserPhone) {
+            Cache::put('otp_'.$phone, '123456', now()->addMinutes(60));
+            Log::info('Test user bypass: fixed OTP set for '.$phone);
+
+            return response()->json(['message' => 'OTP sent', 'status' => 'otp_sent']);
         }
 
         // Explicitly check for boolean true; otherwise, default to password if set

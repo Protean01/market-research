@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             QuestionTemplateSeeder::class,
             FreshShowcaseSeeder::class,
             ShowcaseSurveySeeder::class,
+            ClientShowcaseSeeder::class,
         ]);
     }
 }

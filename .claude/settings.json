@@ -20,7 +20,16 @@
       "PowerShell(cd \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\"; php check_surveys.php; echo \"EXIT: $LASTEXITCODE\")",
       "Bash(php activate_draws.php)",
       "Bash(del \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\activate_draws.php\")",
-      "Bash(php add_points_survey.php)"
+      "Bash(php add_points_survey.php)",
+      "Bash(cmd /c \"dir /AL \\\\\"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\public\\\\storage\\\\\"\")",
+      "PowerShell(\\(Get-Item \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\market-research-platform\\\\public\\\\storage\"\\).LinkType)",
+      "Bash(npx vue-tsc *)",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log -Tail 200\")",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log | Select-String -Pattern 'ERROR|CRITICAL|WARNING' | Select-Object -First 50\")",
+      "Bash(ls \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\\" )",
+      "Read(//c/Users/nilca/Documents/Games/**)",
+      "Bash(grep -v \"^$\")",
+      "Bash(git add *)"
     ],
     "additionalDirectories": [
       "c:\\Users\\nilca\\Documents\\Games\\New Project\\market-research-platform\\docs\\superpowers\\specs"

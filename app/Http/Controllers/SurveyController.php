@@ -203,7 +203,7 @@ class SurveyController extends Controller
                     $survey->increment('response_count');
 
                     if ($isFlagged) {
-                        \Log::warning("Flagged response — points withheld for user {$user->id} on survey {$survey->id}: {$flagReason}");
+                        \Log::warning("Flagged response - points withheld for user {$user->id} on survey {$survey->id}: {$flagReason}");
                     }
 
                     // Apply Streak Bonus (10% extra if streak >= 5)

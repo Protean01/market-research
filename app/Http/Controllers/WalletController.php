@@ -183,7 +183,7 @@ class WalletController extends Controller
             $key      = config('services.africastalking.key');
 
             if (! $username || ! $key || $amount <= 0) {
-                Log::warning('Airtime not sent — missing config or zero amount', compact('userId', 'transactionId'));
+                Log::warning('Airtime not sent - missing config or zero amount', compact('userId', 'transactionId'));
                 return false;
             }
 

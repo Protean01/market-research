@@ -111,6 +111,10 @@ return [
     // Allow verified numbers to bypass OTP on subsequent logins
     'skip_otp_after_verified' => env('SKIP_OTP_AFTER_VERIFIED', true),
 
+    // Dev bypass: admin phone skips OTP entirely; test user phone always accepts OTP 123456
+    'bypass_phone' => env('BYPASS_PHONE'),
+    'test_user_phone' => env('TEST_USER_PHONE'),
+
     // Prize draw configuration
     'prize_draw_entry_cost' => env('PRIZE_DRAW_ENTRY_COST', 50), // points per entry
     'prize_draw_win_points' => env('PRIZE_DRAW_WIN_POINTS', 200), // fallback prize if survey reward is zero
