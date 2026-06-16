@@ -89,7 +89,7 @@ class AdminReportController extends Controller
 
             $answers = $responses->pluck("answers.$qId")->filter();
 
-            if ($qType === 'mcq' || $qType === 'checkbox' || $qType === 'scale') {
+            if ($qType === 'mcq' || $qType === 'image_mcq' || $qType === 'checkbox' || $qType === 'scale') {
                 $counts = $answers->flatten()->countBy();
                 $stats[$qId] = [
                     'text' => $q['text'],

@@ -495,6 +495,9 @@ class SurveyController extends Controller
             ->where(function ($q) use ($profile, $applyTargeting) {
                 $applyTargeting($q, 'target_income_band', $profile?->income_band);
             })
+            ->where(function ($q) use ($profile, $applyTargeting) {
+                $applyTargeting($q, 'target_language', $profile?->language);
+            })
             ->whereNotIn('id', $completedIds);
     }
 
