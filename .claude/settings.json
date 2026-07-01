@@ -29,7 +29,10 @@
       "Bash(ls \"c:\\\\Users\\\\nilca\\\\Documents\\\\Games\\\\New Project\\\\\" )",
       "Read(//c/Users/nilca/Documents/Games/**)",
       "Bash(grep -v \"^$\")",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(powershell -Command \"Get-Content storage/logs/laravel.log -Tail 50\")"
     ],
     "additionalDirectories": [
       "c:\\Users\\nilca\\Documents\\Games\\New Project\\market-research-platform\\docs\\superpowers\\specs"

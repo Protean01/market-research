@@ -57,13 +57,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });
 
-Route::middleware(['auth', 'phone.verified', 'password.set'])->group(function () {
+Route::middleware(['auth', 'phone.verified'])->group(function () {
     Route::get('/auth/create-password', fn () => Inertia::render('auth/Onboarding', [
         'step'                 => 4,
         'phone'                => auth()->user()?->phone_number,
         'must_create_password' => true,
     ]))->name('auth.create-password');
     Route::post('/auth/set-password', [AuthController::class, 'setPassword'])->name('auth.set-password');
+});
+
+Route::middleware(['auth', 'phone.verified', 'password.set'])->group(function () {
     Route::get('/notifications/feed', [NotificationFeedController::class, 'index'])->name('notifications.feed');
     Route::post('/notifications/read', [NotificationFeedController::class, 'markRead'])->name('notifications.read');
     Route::get('/notifications', fn () => Inertia::render('Notifications'))->name('notifications.page');

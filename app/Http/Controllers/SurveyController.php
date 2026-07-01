@@ -142,9 +142,14 @@ class SurveyController extends Controller
 
         try {
             return \DB::transaction(function () use ($request, $survey, $user, $data, $isFlagged, $flagReason, $qualityScore) {
-                // Lock the survey and wallet to prevent race conditions
+                // Lock the user, survey, and wallet to prevent race conditions
+                $userLocked = \App\Models\User::where('id', $user->id)->lockForUpdate()->first();
                 $survey = Survey::where('id', $survey->id)->lockForUpdate()->first();
-                $wallet = $user->wallet()->lockForUpdate()->first() ?? $user->wallet()->create();
+                $wallet = $userLocked->wallet()->lockForUpdate()->first();
+                if (! $wallet) {
+                    $wallet = $userLocked->wallet()->create(['balance' => 0, 'points' => 0]);
+                    $wallet = $userLocked->wallet()->lockForUpdate()->first();
+                }
 
                 if ($survey->response_cap && $survey->responses()->count() >= $survey->response_cap) {
                     throw new \Exception('Response cap reached', 409);
@@ -226,7 +231,8 @@ class SurveyController extends Controller
                     $rewardType = $survey->reward_type ?? 'points';
 
                     if (! $isFlagged) {
-                        if ($rewardType === 'points') {
+                        // Always award participation points for every survey
+                        if ($finalPoints > 0) {
                             $wallet->increment('points', $finalPoints);
                             $wallet->transactions()->create([
                                 'type' => 'earn',
@@ -240,13 +246,10 @@ class SurveyController extends Controller
                                     'tier_multiplier' => $tierMultiplier,
                                 ],
                             ]);
-                        } elseif ($rewardType === 'airtime') {
-                            PrizeDrawEntry::create([
-                                'survey_id' => $survey->id,
-                                'user_id' => $user->id,
-                                'points_entered' => 0,
-                            ]);
-                        } elseif ($rewardType === 'prize_draw') {
+                        }
+
+                        // For prize draw / airtime surveys: also create a draw entry
+                        if ($rewardType === 'airtime' || $rewardType === 'prize_draw') {
                             PrizeDrawEntry::create([
                                 'survey_id' => $survey->id,
                                 'user_id' => $user->id,
@@ -254,7 +257,7 @@ class SurveyController extends Controller
                             ]);
                         }
 
-                        \Log::info("Reward processed for user {$user->id} for survey {$survey->id}: Type {$rewardType}");
+                        \Log::info("Reward processed for user {$user->id} for survey {$survey->id}: Type {$rewardType}, Points {$finalPoints}");
                     }
                 } else {
                     \Log::info("Points skipped for user {$user->id} (already awarded) for survey {$survey->id}");

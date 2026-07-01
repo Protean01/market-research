@@ -510,19 +510,20 @@ const deleteSurvey = (surveyId: number) => {
                                     <div>
                                         <label class="block text-xs font-black uppercase tracking-widest text-foreground mb-2 opacity-80">Reward Type</label>
                                         <select v-model="form.reward_type" class="w-full rounded-xl border-border border p-3 bg-background text-foreground font-bold focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                                            <option value="points">Wallet Points</option>
+                                            <option value="points">Points Reward</option>
                                             <option value="airtime">Direct Airtime</option>
                                             <option value="prize_draw">Prize Draw Entry</option>
                                         </select>
                                     </div>
 
-                                    <!-- Points type: single field -->
-                                    <div v-if="form.reward_type === 'points'">
+                                    <!-- Points awarded (always shown — every survey gives participation points) -->
+                                    <div>
                                         <label class="block text-xs font-black uppercase tracking-widest text-foreground mb-2 opacity-80">Points Awarded</label>
                                         <div class="relative">
                                             <Coins class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-amber-500" />
-                                            <input v-model="form.reward_points" type="number" class="w-full rounded-xl border-border border p-3 pl-10 bg-background text-foreground font-bold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all" required>
+                                            <input v-model="form.reward_points" type="number" min="0" class="w-full rounded-xl border-border border p-3 pl-10 bg-background text-foreground font-bold focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all" required>
                                         </div>
+                                        <p class="text-[10px] text-muted-foreground font-medium mt-1">Points every participant earns on completion.</p>
                                         <div v-if="form.errors.reward_points" class="text-red-500 text-xs font-bold mt-2 flex items-center gap-1"><AlertCircle class="w-3 h-3"/> {{ form.errors.reward_points }}</div>
                                     </div>
 

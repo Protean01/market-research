@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head, Link, usePage, router } from '@inertiajs/vue3';
 import {
-    Wallet, User, ArrowRight, Coins, Zap, Trophy,
+    User, ArrowRight, Coins, Zap, Trophy,
     CheckCircle2, Clock,
     Smartphone, UserPlus, ShieldCheck,
     Sparkles, History, Heart, GraduationCap, Utensils,
@@ -144,7 +144,7 @@ return `${hours}h ago`;
 
 const quickActions = computed(() => [
     { title: 'Surveys', href: '/surveys', icon: Zap, color: 'bg-indigo-600' },
-    { title: 'Wallet', href: '/wallet', icon: Wallet, color: 'bg-emerald-600' },
+    { title: 'Points', href: '/wallet', icon: Coins, color: 'bg-emerald-600' },
     { title: 'Profile', href: '/profile', icon: User, color: 'bg-amber-600' },
     { title: 'Support', href: 'https://wa.me/260972829811', icon: Smartphone, color: 'bg-rose-600' },
 ]);
@@ -213,8 +213,8 @@ const quickActions = computed(() => [
 
                         <div class="flex flex-col gap-2 w-full md:w-auto">
                             <Link href="/wallet" class="flex items-center justify-center gap-3 p-3 px-6 rounded-2xl md:rounded-3xl bg-white/10 border border-white/10 hover:bg-white/20 backdrop-blur-md transition-all group">
-                                <History class="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
-                                <span class="text-[9px] font-black uppercase tracking-widest text-white">Wallet</span>
+                                <Coins class="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                                <span class="text-[9px] font-black uppercase tracking-widest text-white">Tier Points</span>
                             </Link>
                         </div>
                     </div>

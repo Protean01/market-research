@@ -361,11 +361,12 @@ const totalCount = computed(() => allQuestions.value.length);
                             <h2 class="text-4xl font-black tracking-tighter uppercase leading-none">Perfect!</h2>
                             <p class="text-muted-foreground text-lg font-medium leading-relaxed">
                                 <template v-if="survey.reward_type === 'prize_draw'">
-                                    You've earned an entry into the <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.prize_name || 'Grand Prize Draw' }}</span>!
+                                    You've earned an entry into the <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.prize_name || 'Grand Prize Draw' }}</span>
+                                    <template v-if="survey.reward_points > 0"> and <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.reward_points }} points</span></template>!
                                 </template>
                                 <template v-else-if="survey.reward_type === 'airtime'">
-                                    <span v-if="survey.draw_phase_active">Spinning now — claim your <span class="text-indigo-600 dark:text-white font-black underline">Airtime Prize</span> on the slot machine!</span>
-                                    <span v-else>You've been entered into the <span class="text-indigo-600 dark:text-white font-black underline">Airtime Prize Draw</span>. You'll be notified when the draw opens.</span>
+                                    <span v-if="survey.draw_phase_active">Spinning now — claim your <span class="text-indigo-600 dark:text-white font-black underline">Airtime Prize</span> on the slot machine<template v-if="survey.reward_points > 0"> and keep your <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.reward_points }} points</span></template>!</span>
+                                    <span v-else>You've been entered into the <span class="text-indigo-600 dark:text-white font-black underline">Airtime Prize Draw</span><template v-if="survey.reward_points > 0"> and received <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.reward_points }} points</span></template>. You'll be notified when the draw opens.</span>
                                 </template>
                                 <template v-else>
                                      You've unlocked <span class="text-indigo-600 dark:text-white font-black underline">{{ survey.reward_points ?? 50 }} points</span>!

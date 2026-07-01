@@ -15,6 +15,11 @@ class EnsurePhoneVerified
     {
         $user = $request->user();
 
+        // Bypass phone verification checks for admin and researcher roles
+        if ($user && ($user->isAdmin() || $user->isResearcher())) {
+            return $next($request);
+        }
+
         if (! $user || ! $user->phone_verified_at) {
             if ($request->expectsJson()) {
                 return response()->json(['message' => 'Phone verification required.'], 403);

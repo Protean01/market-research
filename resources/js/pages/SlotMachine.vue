@@ -529,7 +529,7 @@ function triggerWinEffects() {
                             </p>
                             <p v-else class="text-white text-lg font-bold flex items-center justify-center gap-2">
                                 <Coins class="w-5 h-5 text-amber-400" />
-                                +{{ prizeAmount }} Points added to your wallet!
+                                +{{ prizeAmount }} Points added to your balance!
                             </p>
                             <Link href="/wallet" class="inline-flex items-center gap-2 mt-2 px-6 py-3 rounded-2xl bg-white/10 border border-white/20 text-white font-black text-sm uppercase tracking-widest hover:bg-white/20 transition-all">
                                 View Rewards →
@@ -543,7 +543,7 @@ function triggerWinEffects() {
                             </div>
                             <div v-if="consolationAmount > 0" class="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-indigo-500/20 border border-indigo-400/30">
                                 <Coins class="w-5 h-5 text-indigo-300" />
-                                <span class="text-indigo-200 font-bold text-sm">+{{ consolationAmount }} consolation points added to your wallet</span>
+                                <span class="text-indigo-200 font-bold text-sm">+{{ consolationAmount }} consolation points added to your balance</span>
                             </div>
                             <p class="text-indigo-200 font-medium text-sm">Thanks for participating. Keep completing surveys to build your streak and tier bonus!</p>
                             <Link href="/dashboard" class="inline-flex items-center gap-2 mt-1 px-6 py-3 rounded-2xl bg-white/10 border border-white/20 text-white font-black text-sm uppercase tracking-widest hover:bg-white/20 transition-all">

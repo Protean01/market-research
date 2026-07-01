@@ -12,9 +12,14 @@ class EnsurePasswordIsSet
     {
         $user = $request->user();
 
+        // Bypass password set checks for admin and researcher roles
+        if ($user && ($user->isAdmin() || $user->isResearcher())) {
+            return $next($request);
+        }
+
         if ($user && ! $user->is_password_set) {
-            // Allow the set-password POST through so the form can actually save
-            if ($request->routeIs('auth.set-password')) {
+            // Allow the set-password POST and create-password GET through
+            if ($request->routeIs('auth.set-password') || $request->routeIs('auth.create-password')) {
                 return $next($request);
             }
 

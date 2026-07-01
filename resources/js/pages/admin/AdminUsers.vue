@@ -98,7 +98,7 @@ const restoreUser = (userId: number, name: string) => {
                                 <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">User Details</th>
                                 <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Profile Info</th>
                                 <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Reputation</th>
-                                <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Wallet</th>
+                                <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Points</th>
                                 <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest">Role</th>
                                 <th class="px-6 py-4 text-[10px] font-black text-muted-foreground uppercase tracking-widest text-right">Actions</th>
                             </tr>

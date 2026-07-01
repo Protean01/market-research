@@ -366,7 +366,7 @@ function formatCurrency(val: number) {
                             <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-white/70 mb-8">Financial Governance</h3>
                             <div class="space-y-8">
                                 <div class="space-y-1">
-                                    <p class="text-[9px] font-black uppercase text-white/70 tracking-widest">Total Liability (Points in Wallets)</p>
+                                    <p class="text-[9px] font-black uppercase text-white/70 tracking-widest">Total Liability (Points in Circulation)</p>
                                     <p class="text-4xl font-black tracking-tighter text-lime-200">{{ formatCurrency(summary.financial.liability_zmw) }}</p>
                                 </div>
                                 <div class="space-y-1">

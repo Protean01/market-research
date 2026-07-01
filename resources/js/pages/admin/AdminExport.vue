@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import { Download, FileSpreadsheet, Wallet, ArrowRight, Table, Trophy } from 'lucide-vue-next';
+import { Download, FileSpreadsheet, Coins, ArrowRight, Table, Trophy } from 'lucide-vue-next';
 import { computed, ref } from 'vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 
@@ -123,7 +123,7 @@ const exportPrizeEntriesUrl = computed(() =>
                 <!-- Wallet Transactions Card -->
                 <div class="rounded-3xl border border-border bg-card p-8 shadow-sm flex flex-col space-y-6 relative overflow-hidden">
                     <div class="absolute top-0 right-0 p-8 opacity-5">
-                        <Wallet class="w-32 h-32" />
+                        <Coins class="w-32 h-32" />
                     </div>
 
                     <div class="flex items-center gap-4">

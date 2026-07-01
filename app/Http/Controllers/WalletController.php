@@ -61,38 +61,52 @@ class WalletController extends Controller
             'points' => ['required', 'integer', 'min:1'],
         ]);
 
-        $user   = $request->user();
-        $wallet = $user->wallet ?? $user->wallet()->create(['balance' => 0, 'points' => 0]);
-
-        $pointsToRedeem = (int) $request->input('points');
-
-        if ($wallet->points < $pointsToRedeem) {
-            return response()->json(['error' => 'Insufficient points.'], 422);
-        }
-
+        $user = $request->user();
         if (! $user->phone_number) {
             return response()->json(['error' => 'No phone number on your account. Please update your profile first.'], 422);
         }
+
+        $pointsToRedeem = (int) $request->input('points');
 
         // Conversion: 10 points = 1 unit of currency (e.g. ZMW 1)
         $airtimeAmount = round($pointsToRedeem / 10, 2);
         $currency      = config('services.africastalking.currency', 'ZMW');
 
         $transaction = null;
+        $walletObj = null;
 
-        DB::transaction(function () use ($wallet, $pointsToRedeem, $airtimeAmount, $currency, &$transaction) {
-            $wallet->decrement('points', $pointsToRedeem);
+        try {
+            DB::transaction(function () use ($user, $pointsToRedeem, $airtimeAmount, &$transaction, &$walletObj) {
+                // Lock the user row to serialize user-scoped wallet/transaction updates
+                \App\Models\User::where('id', $user->id)->lockForUpdate()->first();
 
-            $transaction = $wallet->transactions()->create([
-                'type'   => 'redeem',
-                'points' => $pointsToRedeem,
-                'status' => 'processing',
-                'meta'   => [
-                    'type'   => 'airtime',
-                    'amount' => $airtimeAmount,
-                ],
-            ]);
-        });
+                $wallet = $user->wallet()->lockForUpdate()->first();
+                if (! $wallet) {
+                    $wallet = $user->wallet()->create(['balance' => 0, 'points' => 0]);
+                    $wallet = $user->wallet()->lockForUpdate()->first();
+                }
+
+                if ($wallet->points < $pointsToRedeem) {
+                    throw new \RuntimeException('Insufficient points.');
+                }
+
+                $wallet->decrement('points', $pointsToRedeem);
+
+                $transaction = $wallet->transactions()->create([
+                    'type'   => 'redeem',
+                    'points' => $pointsToRedeem,
+                    'status' => 'processing',
+                    'meta'   => [
+                        'type'   => 'airtime',
+                        'amount' => $airtimeAmount,
+                    ],
+                ]);
+
+                $walletObj = $wallet;
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
         $sent = $this->sendAirtime($user->phone_number, $currency, $airtimeAmount, $user->id, $transaction->id);
 
@@ -100,9 +114,10 @@ class WalletController extends Controller
 
         if (! $sent) {
             // Refund points if delivery failed
-            DB::transaction(function () use ($wallet, $pointsToRedeem, $transaction) {
-                $wallet->increment('points', $pointsToRedeem);
-                $wallet->transactions()->create([
+            DB::transaction(function () use ($walletObj, $pointsToRedeem, $transaction) {
+                $lockedWallet = \App\Models\Wallet::where('id', $walletObj->id)->lockForUpdate()->first();
+                $lockedWallet->increment('points', $pointsToRedeem);
+                $lockedWallet->transactions()->create([
                     'type'   => 'earn',
                     'points' => $pointsToRedeem,
                     'status' => 'completed',
@@ -115,7 +130,7 @@ class WalletController extends Controller
 
         return response()->json([
             'message' => "Success! {$currency} {$airtimeAmount} airtime sent to {$user->phone_number}.",
-            'points'  => $wallet->fresh()->points,
+            'points'  => $walletObj->fresh()->points,
         ]);
     }
 
@@ -132,15 +147,10 @@ class WalletController extends Controller
             return response()->json(['error' => 'Prize draw is not enabled for this survey.'], 403);
         }
 
-        $wallet     = $user->wallet ?? $user->wallet()->create(['balance' => 0, 'points' => 0]);
         $entryCost  = (int) config('app.prize_draw_entry_cost', 50);
 
         if ($entryCost <= 0) {
             return response()->json(['error' => 'Entry cost is not configured.'], 422);
-        }
-
-        if ($wallet->points < $entryCost) {
-            return response()->json(['error' => 'Insufficient points.'], 422);
         }
 
         if (! $user->responses()->where('survey_id', $survey->id)->exists()) {
@@ -151,28 +161,49 @@ class WalletController extends Controller
             return response()->json(['error' => 'You have already entered this prize draw.'], 409);
         }
 
-        DB::transaction(function () use ($wallet, $survey, $user, $entryCost) {
-            $wallet->decrement('points', $entryCost);
-            $wallet->transactions()->create([
-                'type'   => 'redeem',
-                'points' => $entryCost,
-                'status' => 'completed',
-                'meta'   => [
-                    'type'         => 'prize_draw',
-                    'survey_id'    => $survey->id,
-                    'survey_title' => $survey->title,
-                ],
-            ]);
-            PrizeDrawEntry::create([
-                'survey_id'      => $survey->id,
-                'user_id'        => $user->id,
-                'points_entered' => $entryCost,
-            ]);
-        });
+        $walletObj = null;
+
+        try {
+            DB::transaction(function () use ($user, $survey, $entryCost, &$walletObj) {
+                // Lock the user row to serialize user-scoped wallet/transaction updates
+                \App\Models\User::where('id', $user->id)->lockForUpdate()->first();
+
+                $wallet = $user->wallet()->lockForUpdate()->first();
+                if (! $wallet) {
+                    $wallet = $user->wallet()->create(['balance' => 0, 'points' => 0]);
+                    $wallet = $user->wallet()->lockForUpdate()->first();
+                }
+
+                if ($wallet->points < $entryCost) {
+                    throw new \RuntimeException('Insufficient points.');
+                }
+
+                $wallet->decrement('points', $entryCost);
+                $wallet->transactions()->create([
+                    'type'   => 'redeem',
+                    'points' => $entryCost,
+                    'status' => 'completed',
+                    'meta'   => [
+                        'type'         => 'prize_draw',
+                        'survey_id'    => $survey->id,
+                        'survey_title' => $survey->title,
+                    ],
+                ]);
+                PrizeDrawEntry::create([
+                    'survey_id'      => $survey->id,
+                    'user_id'        => $user->id,
+                    'points_entered' => $entryCost,
+                ]);
+
+                $walletObj = $wallet;
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
         return response()->json([
             'message' => 'You have been entered into the prize draw!',
-            'points'  => $wallet->fresh()->points,
+            'points'  => $walletObj->fresh()->points,
         ]);
     }
 

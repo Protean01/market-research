@@ -25,16 +25,10 @@ class PrizeDrawController extends Controller
             return response()->json(['error' => 'Prize draw is not enabled for this survey.'], 403);
         }
 
-        $wallet = $user->wallet ?? $user->wallet()->create();
-
         $entryCost = (int) config('app.prize_draw_entry_cost', 50);
 
         if ($entryCost <= 0) {
             return response()->json(['error' => 'No points to enter into the draw.'], 422);
-        }
-
-        if ($wallet->points < $entryCost) {
-            return response()->json(['error' => 'Insufficient points.'], 422);
         }
 
         $completed = $user->responses()->where('survey_id', $survey->id)->exists();
@@ -42,31 +36,48 @@ class PrizeDrawController extends Controller
             return response()->json(['error' => 'You must complete this survey before entering the draw.'], 403);
         }
 
-        $alreadyEntered = PrizeDrawEntry::where('survey_id', $survey->id)
-            ->where('user_id', $user->id)
-            ->exists();
-
-        if ($alreadyEntered) {
+        if (PrizeDrawEntry::where('survey_id', $survey->id)->where('user_id', $user->id)->exists()) {
             return response()->json(['error' => 'You have already entered this prize draw.'], 409);
         }
 
-        DB::transaction(function () use ($wallet, $survey, $user, $entryCost) {
-            $wallet->decrement('points', $entryCost);
-            $wallet->transactions()->create([
-                'type' => 'redeem',
-                'points' => $entryCost,
-                'meta' => [
-                    'type' => 'prize_draw',
+        $walletObj = null;
+
+        try {
+            DB::transaction(function () use ($user, $survey, $entryCost, &$walletObj) {
+                // Lock the user row to serialize user-scoped wallet/entry creations
+                \App\Models\User::where('id', $user->id)->lockForUpdate()->first();
+
+                $wallet = $user->wallet()->lockForUpdate()->first();
+                if (! $wallet) {
+                    $wallet = $user->wallet()->create(['balance' => 0, 'points' => 0]);
+                    $wallet = $user->wallet()->lockForUpdate()->first();
+                }
+
+                if ($wallet->points < $entryCost) {
+                    throw new \RuntimeException('Insufficient points.');
+                }
+
+                $wallet->decrement('points', $entryCost);
+                $wallet->transactions()->create([
+                    'type' => 'redeem',
+                    'points' => $entryCost,
+                    'meta' => [
+                        'type' => 'prize_draw',
+                        'survey_id' => $survey->id,
+                        'survey_title' => $survey->title,
+                    ],
+                ]);
+                PrizeDrawEntry::create([
                     'survey_id' => $survey->id,
-                    'survey_title' => $survey->title,
-                ],
-            ]);
-            PrizeDrawEntry::create([
-                'survey_id' => $survey->id,
-                'user_id' => $user->id,
-                'points_entered' => $entryCost,
-            ]);
-        });
+                    'user_id' => $user->id,
+                    'points_entered' => $entryCost,
+                ]);
+
+                $walletObj = $wallet;
+            });
+        } catch (\RuntimeException $e) {
+            return response()->json(['error' => $e->getMessage()], 422);
+        }
 
         if ($request->header('X-Inertia')) {
             return back()->with('status', 'You have been entered into the prize draw!');
@@ -75,7 +86,7 @@ class PrizeDrawController extends Controller
         return $request->expectsJson()
             ? response()->json([
                 'message' => 'You have been entered into the prize draw!',
-                'points' => $wallet->fresh()->points,
+                'points' => $walletObj->fresh()->points,
             ])
             : back()->with('status', 'You have been entered into the prize draw!');
     }
@@ -248,7 +259,10 @@ class PrizeDrawController extends Controller
         // Prevents two simultaneous requests from both computing "you win" for
         // the same prize slot before either write has committed.
         $lock = Cache::lock("prize_draw_spin_{$survey->id}", 15);
-        if (! $lock->get()) {
+        try {
+            // Block/Wait up to 5 seconds for the lock to become available
+            $lock->block(5);
+        } catch (\Illuminate\Contracts\Cache\LockTimeoutException $e) {
             return response()->json(['error' => 'Please wait a moment and try again.'], 429);
         }
 
